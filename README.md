@@ -43,59 +43,7 @@ npm 9+
 
 OpenAI API key
 
-# Local Setup
-1. Install dependencies
-npm install
-2. Create local environment file
-cp .env.example .env
-3. Edit .env and set values
-OPENAI_API_KEY=your_openai_api_key_here
-OPENAI_MODEL=gpt-4o-mini
-PORT=5000
-FRONTEND_ORIGIN=*
-4. Start backend
-node server.js
-5. Open the app
 
-Option A: Open via your static server and call backend at http://localhost:5000/api/chat
-
-Option B: Use backend static serving at http://localhost:5000
-
-API Contract
-Health Check
-
-GET /api/health
-
-Example response:
-
-{
-  "ok": true,
-  "model": "gpt-4o-mini",
-  "hasApiKey": true
-}
-Chat
-
-POST /api/chat
-
-Request body:
-
-{
-  "chatId": "chat_123",
-  "message": "Hello"
-}
-
-Success response:
-
-{
-  "reply": "Hi! How can I help you today?"
-}
-
-Possible error response:
-
-{
-  "error": "Failed to generate response from OpenAI.",
-  "details": "..."
-}
 # What the Bot Can Do Today
 
 Respond conversationally using OpenAI.

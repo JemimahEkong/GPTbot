@@ -3,11 +3,7 @@ let chats = [];
 let activeChatId = null;
 let isTyping = false;
 
-const AI_RESPONSES = [
-  "That's a great question! Let me think about that for a moment.\n\nBased on my analysis, here are some key points to consider:\n\n1. The approach you're suggesting has merit and could work well in practice.\n2. There are a few considerations to keep in mind regarding scalability.\n3. I'd recommend starting with a minimal implementation and iterating from there.\n\nWould you like me to elaborate on any of these points?",
-  "I'd be happy to help with that! Here's what I can tell you:\n\nThe concept you're asking about is fundamental to modern software development. It involves breaking down complex problems into smaller, manageable pieces.\n\nHere's a simple example to illustrate:\n\nfunction solve(problem) {\n  const parts = decompose(problem);\n  return parts.map(analyze).join('\\n');\n}\n\nLet me know if you need more details!",
-  "Excellent question! Let me break this down for you.\n\nThere are several approaches you could take, each with its own tradeoffs:\n\n• Option A: Faster to implement, but less flexible\n• Option B: More complex initially, but scales better\n• Option C: A balanced middle ground\n\nI'd personally lean towards Option B for long-term projects. What do you think?",
-];
+const CHAT_API_URL = "http://localhost:5000/api/chat";
 
 // ── DOM ──
 const sidebar = document.getElementById("sidebar");
@@ -199,7 +195,7 @@ function scrollToBottom() {
 }
 
 // ── Send Logic ──
-function handleSend(content) {
+async function handleSend(content) {
   const text = content.replace(/🎙.*$/, "").trim();
   if (!text || isTyping) return;
 
@@ -212,14 +208,39 @@ function handleSend(content) {
   sendBtn.disabled = true;
   showTyping();
 
-  const delay = 1000 + Math.random() * 2000;
-  setTimeout(() => {
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 45000);
+
+    const response = await fetch(CHAT_API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        chatId,
+        message: text,
+      }),
+      signal: controller.signal,
+    });
+
+    clearTimeout(timeoutId);
+
+    if (!response.ok) {
+      const errorPayload = await response.json().catch(() => ({}));
+      throw new Error(errorPayload.details || errorPayload.error || "Failed to fetch assistant response.");
+    }
+
+    const data = await response.json();
+    addMessage(chatId, "assistant", data.reply || "I couldn't generate a response right now.");
+  } catch (error) {
+    const friendlyError = error.name === "AbortError" ? "Request timed out. Please try again." : error.message;
+    addMessage(chatId, "assistant", `Sorry, I couldn't reach the chat service. ${friendlyError}`);
+  } finally {
     hideTyping();
-    const response = AI_RESPONSES[Math.floor(Math.random() * AI_RESPONSES.length)];
-    addMessage(chatId, "assistant", response);
     isTyping = false;
     updateSendBtn();
-  }, delay);
+  }
 }
 
 // ── Input ──

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GPT AI - Intelligent Assistant</title>
+  <meta name="description" content="GPT AI chatbot - Your intelligent assistant" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" type= "image/jpg" href="GPT logo.jpg" />
+</head>
+<body>
+  <div class="app">
+    <!-- Mobile Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="logo">
+          <div class="logo-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-brain-icon lucide-brain"><path d="M12 18V5"/><path d="M15 13a4.17 4.17 0 0 1-3-4 4.17 4.17 0 0 1-3 4"/><path d="M17.598 6.5A3 3 0 1 0 12 5a3 3 0 1 0-5.598 1.5"/><path d="M17.997 5.125a4 4 0 0 1 2.526 5.77"/><path d="M18 18a4 4 0 0 0 2-7.464"/><path d="M19.967 17.483A4 4 0 1 1 12 18a4 4 0 1 1-7.967-.517"/><path d="M6 18a4 4 0 0 1-2-7.464"/><path d="M6.003 5.125a4 4 0 0 0-2.526 5.77"/></svg></div>
+          <span class="logo-text">GPT AI</span>
+        </div>
+        <button class="close-sidebar" id="closeSidebar">✕</button>
+      </div>
+      <div class="sidebar-actions">
+        <button class="new-chat-btn" id="newChatBtn">
+          <span>+</span> New Chat
+        </button>
+      </div>
+      <nav class="chat-list" id="chatList">
+        <p class="no-chats">No conversations yet</p>
+      </nav>
+    </aside>
+
+    <!-- Main Chat Area -->
+    <main class="chat-area">
+      <header class="chat-header">
+        <button class="menu-btn" id="menuBtn">☰</button>
+        <h2 class="chat-title" id="chatTitle">GPT AI</h2>
+      </header>
+
+      <div class="messages-container" id="messagesContainer">
+        <!-- Welcome Screen -->
+        <div class="welcome-screen" id="welcomeScreen">
+          <div class="welcome-icon">G</div>
+          <h1>Welcome to GPT AI</h1>
+          <p>Your intelligent assistant. Ask me anything to get started.</p>
+          <div class="suggestions">
+            <button class="suggestion-card" data-prompt="Write a short story about a robot discovering emotions for the first time">
+              <span class="suggestion-icon">✨</span>
+              <strong>Creative Writing</strong>
+              <span>Write a short story about a robot discovering emotions for the first time</span>
+            </button>
+            <button class="suggestion-card" data-prompt="Explain how async/await works in JavaScript with examples">
+              <span class="suggestion-icon">💻</span>
+              <strong>Code Help</strong>
+              <span>Explain how async/await works in JavaScript with examples</span>
+            </button>
+            <button class="suggestion-card" data-prompt="Give me 5 unique startup ideas in the AI education space">
+              <span class="suggestion-icon">💡</span>
+              <strong>Brainstorm Ideas</strong>
+              <span>Give me 5 unique startup ideas in the AI education space</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Messages will be inserted here -->
+        <div class="messages" id="messages"></div>
+      </div>
+
+      <!-- Input Area -->
+      <div class="input-area">
+        <div class="input-wrapper">
+        <!-- Attachment Preview Area -->
+        <div class="attachment-preview" id="attachmentPreview"></div>
+
+        <textarea id="messageInput" placeholder="Message GPT AI..." rows="1"></textarea>
+
+        <input type="file" id="fileInput" style="display:none" multiple />
+
+        <!-- Buttons -->
+      <div class="attachmentBTN">
+        <button type="button" class="attach-btn" id="attachBtn" title="Attach file">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-attach-icon">
+          <path d="M21.44 11.05l-9.19 9.19a5 5 0 0 1-7.07-7.07l9.2-9.19a3.5 3.5 0 0 1 4.95 4.95l-8.49 8.48a1.5 1.5 0 0 1-2.12-2.12l7.78-7.78"/>
+        </svg>
+        </button>
+      </div>
+
+        <button type="button" class="mic-btn" id="micBtn" title="Voice input" style="display:none;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mic-icon">
+            <path d="M12 19v3"/>
+            <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+            <rect x="9" y="2" width="6" height="13" rx="3"/>
+        </svg>
+        </button>
+
+        <button type="button" class="send-btn" id="sendBtn" disabled>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="22" y1="2" x2="11" y2="13"/>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+        </svg>
+        </button>
+        </div>
+        <p class="disclaimer">GPT AI can make mistakes. Consider checking important information.</p>
+      </div>
+    </main>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
